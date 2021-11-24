@@ -15,10 +15,15 @@ class ViewController: UIViewController {
     //actions
     @IBAction func buttonPressed(_ sender: UIButton) {
         if let cardNumber = cardViewArray.firstIndex(of: sender) {
-            let tempSelected = cardViewArray[cardNumber].layer.borderColor == UIColor.black.cgColor
-            drawCard(index: cardNumber, selected: !tempSelected)
+//            let tempSelected = cardViewArray[cardNumber].layer.borderColor == UIColor.black.cgColor
+//            drawCard(index: cardNumber, selected: !tempSelected, inString: NSAttributedString(""))
         }
     }
+    
+    @IBAction func mainControlButtonPressed() {
+    }
+    
+    
     
     //global vars
     //view dictionaries
@@ -28,10 +33,16 @@ class ViewController: UIViewController {
     
     private let colorDict = [cardColor.blue: UIColor.blue, cardColor.red: UIColor.red, cardColor.green: UIColor.green]
     
+    //for shadings, each will have their own shadeing
+//    private let filled = [ NSAttributedString.Key.foregroundColor : UIColor.blue ]
+//    private let outlined = [ NSAttributedString.Key.foregroundColor : UIColor.blue ]
+//    private let striped = [ NSAttributedString.Key.foregroundColor : UIColor.blue ]
+    private let shadeDict = [cardShading.filled, cardShading.outlined, cardShading.striped]
+    
     //functions
     //update functions
     //drawing card functions
-    func drawCard (index: Int, selected: Bool) {
+    func drawCard (index: Int, selected: Bool, inString: NSAttributedString) {
         //need to draw:
         //button selection
         if selected == true {
@@ -43,16 +54,18 @@ class ViewController: UIViewController {
             cardViewArray[index].layer.borderWidth = 3.0
             cardViewArray[index].layer.borderColor = UIColor.blue.cgColor
         }
-        //shape, color, symbolCount, shading
         
+        //text
+        cardViewArray[index].setAttributedTitle(inString, for: UIControl.State.normal)
     }
     
-    func eraseCard (index: Int){
+    func drawInvisibleCard (index: Int){
         //need to draw:
         //button selection
         cardViewArray[index].layer.borderColor = UIColor.white.cgColor
-        //shape, color, symbolCount, shading
         
+        //text
+        cardViewArray[index].setAttributedTitle(NSAttributedString(""), for: UIControl.State.normal)
     }
 
 }
