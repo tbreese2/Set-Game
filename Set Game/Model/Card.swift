@@ -6,83 +6,47 @@
 //
 
 import Foundation
+import CoreText
 
 //shapes: square, triangle, circle
 //colors: red, green, purple
 //count: oneSymbol, twoSymbol, threeSymbol
 //shading: filled, outlined, striped
 
-struct Card {
+struct Card: Equatable {
     //a card contains shape, color, symbolCount and shading
-    private let shape: cardShape
-    private let color: cardColor
-    private let symbolCount: cardSymbolCount
-    private let shading: cardShading
+    private let shape: cardProperty
+    private let color: cardProperty
+    private let symbolCount: cardProperty
+    private let shading: cardProperty
     
-    init(shape inShape: cardShape, color inColor: cardColor, symbolCount inSymbolCount: cardSymbolCount, shading inShading: cardShading) {
+    init(shape inShape: cardProperty, color inColor: cardProperty, symbolCount inSymbolCount: cardProperty, shading inShading: cardProperty) {
         shape = inShape
         color = inColor
         symbolCount = inSymbolCount
         shading = inShading
     }
     
-    func getShape() -> cardShape {
-        return self.shape
-    }
-
-    func getColor() -> cardColor {
-        return self.color
+    func getShape() -> (cardProperty) {
+        return shape
     }
     
-    func getSymbolCount() -> cardSymbolCount {
-        return self.symbolCount
+    func getColor() -> (cardProperty) {
+        return color
     }
     
-    func getShading() -> cardShading {
-        return self.shading
+    func getSymbolCount() -> (cardProperty) {
+        return symbolCount
     }
+    
+    func getShading() -> (cardProperty) {
+        return shading
+    }
+    
 }
 
-//shapes: square, triangle, circle
-//we'll have a dictionary in the main view,
-//controller where:
-//square, triangle, circle (with associated data)
-
-enum cardShape {
-    case square
-    case triangle
-    case circle
-}
-
-//colors: red, green, purple
-//we'll have a dictionary in the main view,
-//controller where:
-//red, green, purple (with associated data)
-
-enum cardColor {
-    case red
-    case green
-    case blue
-}
-
-//count: oneSymbol, twoSymbol, threeSymbol
-//we'll have a dictionary in the main view,
-//controller where:
-//oneSymbol, twoSymbol, threeSymbol (with associated data)
-
-enum cardSymbolCount {
-    case oneSymbol
-    case twoSymbol
-    case threeSymbol
-}
-
-//shading: filled, outlined, striped
-//we'll have a dictionary in the main view,
-//controller where:
-//filled, outlined, striped (with associated data)
-
-enum cardShading {
-    case filled
-    case outlined
-    case striped
+enum cardProperty: Int, Equatable {
+    case casePropertyOne = 0
+    case casePropertyTwo
+    case casePropertyThree
 }
