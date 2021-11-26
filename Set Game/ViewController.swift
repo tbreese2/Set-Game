@@ -18,11 +18,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func mainControlButtonPressed() {
-        let game = gameBoard()
-        print(game.deckCount())
+        test.dealCards()
+        updateViewFromModel()
     }
-    
-    
     
     //global vars
     //view dictionaries
@@ -44,14 +42,29 @@ class ViewController: UIViewController {
         return arr[property]
     }
     
+    //test
+    var test = gameBoard()
+    
     //functions
     //update functions
+    //update veiw from model function
+    func updateViewFromModel() {
+        for cardOnTable in 0..<test.cardsOnTableCount() {
+            if test.canUseCard(index: cardOnTable) {
+                drawCard(index: cardOnTable, selected: test.cardSelected(index: cardOnTable), card: test.getCardOnTable(index: cardOnTable))
+            } else {
+                eraseCard(index: cardOnTable)
+            }
+            
+        }
+    }
+    
     //drawing card functions
     func drawCard (index: Int, selected: Bool, card: Card) {
         //need to draw:
         //whether card visible
         //button selection
-        if selected == true {
+        if selected == false {
             cardViewArray[index].layer.cornerRadius = 4.0
             cardViewArray[index].layer.borderColor = UIColor.black.cgColor
             cardViewArray[index].layer.borderWidth = 3.0

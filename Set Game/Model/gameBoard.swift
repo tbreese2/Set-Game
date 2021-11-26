@@ -11,6 +11,7 @@ struct gameBoard {
     private var deck: [Card]
     private var cardsOnTable: [Card]
     private var indexsOfSelectedCards: [Int]
+    private var matchedCardsDeckEmpty: [Int]
     
     private mutating func fillDeck() {
         for shape in 0...2 {
@@ -24,15 +25,52 @@ struct gameBoard {
         }
     }
     
+    mutating func deselectCards() {
+        indexsOfSelectedCards = [Int]()
+    }
+    
+    mutating func selectCard(index: Int) {
+        indexsOfSelectedCards.append(index)
+    }
+    
+    func cardSelected(index: Int) -> Bool {
+        return indexsOfSelectedCards.contains(index)
+    }
+    
     //deal function will deal 12 cards if non have been delt, and then will deal 3 more if cards are still on table
     //will go until all cards aree delt, but theres no point in calling after there are no more cards in the deck
     //so check the deckcount before calling
-//    func dealCards() {
-//        if (cardsOnTable.count == 0) {
-//            
-//        }
-//    }
+    mutating func dealCards() {
+        if (self.cardsOnTableCount() == 0) {
+            for _ in 0..<12 {
+                cardsOnTable.append(deck.removeFirst())
+            }
+        } else {
+            for _ in 0..<3 {
+                cardsOnTable.append(deck.removeFirst())
+            }
+        }
+    }
     
+    //will replace cards if they match, else, it will just
+    mutating func replaceMatchCards(firstIndex: Int, secondIndex: Int, thirdIndex: Int) {
+        if (deck.count >= 3) {
+            cardsOnTable[firstIndex] = deck.removeFirst()
+            cardsOnTable[secondIndex] = deck.removeFirst()
+            cardsOnTable[thirdIndex] = deck.removeFirst()
+        } else {
+            matchedCardsDeckEmpty.append(firstIndex)
+            matchedCardsDeckEmpty.append(secondIndex)
+            matchedCardsDeckEmpty.append(thirdIndex)
+        }
+    }
+    
+    //checks to see if a card should be drawn
+    func canUseCard(index: Int) -> Bool {
+        return !matchedCardsDeckEmpty.contains(index)
+    }
+    
+    //returns card on table at specific index
     func getCardOnTable(index: Int) -> Card {
         return cardsOnTable[index]
     }
@@ -49,6 +87,8 @@ struct gameBoard {
         deck = [Card]()
         cardsOnTable = [Card]()
         indexsOfSelectedCards = [Int]()
+        matchedCardsDeckEmpty = [Int]()
         fillDeck()
+        deck.shuffle()
     }
 }
