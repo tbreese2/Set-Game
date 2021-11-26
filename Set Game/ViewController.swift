@@ -14,14 +14,12 @@ class ViewController: UIViewController {
     
     //actions
     @IBAction func buttonPressed(_ sender: UIButton) {
-        if let cardNumber = cardViewArray.firstIndex(of: sender) {
-            let c = Card(shape: .casePropertyThree,color: .casePropertyThree,symbolCount: .casePropertyThree,shading: .casePropertyThree)
-            drawCard(index: cardNumber, selected: false, card: c)
-        }
+       
     }
     
     @IBAction func mainControlButtonPressed() {
-        eraseCard(index: 0)
+        let game = gameBoard()
+        print(game.deckCount())
     }
     
     

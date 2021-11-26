@@ -42,7 +42,6 @@ struct Card: Equatable {
     func getShading() -> (cardProperty) {
         return shading
     }
-    
 }
 
 enum cardProperty: Int, Equatable {
