@@ -14,11 +14,14 @@ class ViewController: UIViewController {
     
     //actions
     @IBAction func buttonPressed(_ sender: UIButton) {
-       
+        if let cardNumber = cardViewArray.firstIndex(of: sender) {
+            game.selectCard(index: cardNumber)
+            updateViewFromModel()
+        }
     }
     
     @IBAction func mainControlButtonPressed() {
-        test.dealCards()
+        game.dealCards()
         updateViewFromModel()
     }
     
@@ -43,15 +46,15 @@ class ViewController: UIViewController {
     }
     
     //test
-    var test = gameBoard()
+    var game = gameBoard()
     
     //functions
     //update functions
     //update veiw from model function
     func updateViewFromModel() {
-        for cardOnTable in 0..<test.cardsOnTableCount() {
-            if test.canUseCard(index: cardOnTable) {
-                drawCard(index: cardOnTable, selected: test.cardSelected(index: cardOnTable), card: test.getCardOnTable(index: cardOnTable))
+        for cardOnTable in 0..<game.cardsOnTableCount() {
+            if game.canUseCard(index: cardOnTable) {
+                drawCard(index: cardOnTable, selected: game.cardSelected(index: cardOnTable), card: game.getCardOnTable(index: cardOnTable))
             } else {
                 eraseCard(index: cardOnTable)
             }

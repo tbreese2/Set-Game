@@ -25,12 +25,34 @@ struct gameBoard {
         }
     }
     
-    mutating func deselectCards() {
+    private func selectedAreSet() -> Bool {
+        //true of all if all arrays of properties are property sets
+        let shapePropArr = [cardsOnTable[indexsOfSelectedCards[0]].getShape(), cardsOnTable[indexsOfSelectedCards[1]].getShape(), cardsOnTable[indexsOfSelectedCards[2]].getShape()]
+        let shapeColorArr = [cardsOnTable[indexsOfSelectedCards[0]].getColor(), cardsOnTable[indexsOfSelectedCards[1]].getColor(), cardsOnTable[indexsOfSelectedCards[2]].getColor()]
+        let shapeSymbolCountArr = [cardsOnTable[indexsOfSelectedCards[0]].getSymbolCount(), cardsOnTable[indexsOfSelectedCards[1]].getSymbolCount(), cardsOnTable[indexsOfSelectedCards[2]].getSymbolCount()]
+        let shapeShadingArr = [cardsOnTable[indexsOfSelectedCards[0]].getShading(), cardsOnTable[indexsOfSelectedCards[1]].getShading(), cardsOnTable[indexsOfSelectedCards[2]].getShading()]
+        
+        //check if they are all property sets
+        return shapePropArr.isPropertySet() && shapeColorArr.isPropertySet() && shapeShadingArr.isPropertySet() && shapeSymbolCountArr.isPropertySet()
+    }
+    
+    private mutating func deselectCards() {
         indexsOfSelectedCards = [Int]()
     }
     
     mutating func selectCard(index: Int) {
-        indexsOfSelectedCards.append(index)
+        if indexsOfSelectedCards.count < 3 {
+            if !indexsOfSelectedCards.contains(index) {
+                indexsOfSelectedCards.append(index)
+            }
+        } else {
+            if !indexsOfSelectedCards.contains(index) {
+                if selectedAreSet() {
+                    replaceMatchCards()
+                }
+                indexsOfSelectedCards = [Int]()
+            }
+        }
     }
     
     func cardSelected(index: Int) -> Bool {
@@ -41,20 +63,23 @@ struct gameBoard {
     //will go until all cards aree delt, but theres no point in calling after there are no more cards in the deck
     //so check the deckcount before calling
     mutating func dealCards() {
-        if (self.cardsOnTableCount() == 0) {
+        if self.cardsOnTableCount() == 0 {
             for _ in 0..<12 {
                 cardsOnTable.append(deck.removeFirst())
             }
-        } else {
+        } else if cardsOnTable.count < 24 {
             for _ in 0..<3 {
                 cardsOnTable.append(deck.removeFirst())
             }
         }
     }
     
-    //will replace cards if they match, else, it will just
-    mutating func replaceMatchCards(firstIndex: Int, secondIndex: Int, thirdIndex: Int) {
-        if (deck.count >= 3) {
+    //will replace cards if they match. Will make them unusable if there are not cards
+    private mutating func replaceMatchCards() {
+        let firstIndex = indexsOfSelectedCards[0]
+        let secondIndex = indexsOfSelectedCards[1]
+        let thirdIndex = indexsOfSelectedCards[2]
+        if deck.count >= 3 {
             cardsOnTable[firstIndex] = deck.removeFirst()
             cardsOnTable[secondIndex] = deck.removeFirst()
             cardsOnTable[thirdIndex] = deck.removeFirst()
@@ -90,5 +115,26 @@ struct gameBoard {
         matchedCardsDeckEmpty = [Int]()
         fillDeck()
         deck.shuffle()
+    }
+}
+
+extension Array where Element: Equatable {
+    func isPropertySet() -> Bool {
+        var allEqual = true
+        for element in self {
+            for element2 in self {
+                if !(element == element2) { allEqual = false }
+            }
+        }
+        if allEqual == true { return true }
+        var allNotEqual = true
+        for element in self {
+            for element2 in self {
+                if element == element2 { allNotEqual = false }
+
+            }
+        }
+        if allNotEqual == true { return true }
+        return false
     }
 }
