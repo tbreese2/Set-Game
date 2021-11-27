@@ -41,7 +41,10 @@ struct gameBoard {
     }
     
     mutating func selectCard(index: Int) {
-        if indexsOfSelectedCards.count < 3 {
+        if indexsOfSelectedCards.contains(index) {
+            indexsOfSelectedCards.remove(at: indexsOfSelectedCards.firstIndex(of: index)!)
+        }
+        else if indexsOfSelectedCards.count < 3 {
             if !indexsOfSelectedCards.contains(index) {
                 indexsOfSelectedCards.append(index)
             }
@@ -71,6 +74,10 @@ struct gameBoard {
             for _ in 0..<3 {
                 cardsOnTable.append(deck.removeFirst())
             }
+        } else {
+            cardsOnTable[0] = deck.removeFirst()
+            cardsOnTable[1] = deck.removeFirst()
+            cardsOnTable[2] = deck.removeFirst()
         }
     }
     
@@ -128,10 +135,9 @@ extension Array where Element: Equatable {
         }
         if allEqual == true { return true }
         var allNotEqual = true
-        for element in self {
-            for element2 in self {
-                if element == element2 { allNotEqual = false }
-
+        for element in self.indices {
+            for element2 in self.indices {
+                if self[element] == self[element2], element != element2 { allNotEqual = false }
             }
         }
         if allNotEqual == true { return true }

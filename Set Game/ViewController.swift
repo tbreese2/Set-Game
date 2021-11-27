@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     
     //actions
     @IBAction func buttonPressed(_ sender: UIButton) {
-        if let cardNumber = cardViewArray.firstIndex(of: sender) {
+        if let cardNumber = cardViewArray.firstIndex(of: sender), game.cardsOnTableCount() != 0, game.canUseCard(index: cardNumber) {
             game.selectCard(index: cardNumber)
             updateViewFromModel()
         }
