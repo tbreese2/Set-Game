@@ -12,6 +12,7 @@ struct gameBoard {
     private var cardsOnTable: [Card]
     private var indexsOfSelectedCards: [Int]
     private var matchedCardsDeckEmpty: [Int]
+    private var score: Int
     
     private mutating func fillDeck() {
         for shape in 0...2 {
@@ -74,10 +75,6 @@ struct gameBoard {
             for _ in 0..<3 {
                 cardsOnTable.append(deck.removeFirst())
             }
-        } else {
-            cardsOnTable[0] = deck.removeFirst()
-            cardsOnTable[1] = deck.removeFirst()
-            cardsOnTable[2] = deck.removeFirst()
         }
     }
     
@@ -115,7 +112,21 @@ struct gameBoard {
         return deck.count
     }
     
+    func getScore() -> Int {
+        return score
+    }
+    
+    func gameOver() -> Bool {
+        if deckCount() == 0 {
+            for index in cardsOnTable.indices {
+                if canUseCard(index: index) { return true }
+            }
+        }
+        return false
+    }
+    
     init() {
+        score = 0
         deck = [Card]()
         cardsOnTable = [Card]()
         indexsOfSelectedCards = [Int]()

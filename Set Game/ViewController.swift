@@ -9,8 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
     //outlets
-    
     @IBOutlet var cardViewArray: [UIButton]!
+    
+    @IBOutlet weak var gameButton: UIButton!
+    
+    @IBOutlet weak var scoreLabel: UILabel!
     
     //actions
     @IBAction func buttonPressed(_ sender: UIButton) {
@@ -52,6 +55,7 @@ class ViewController: UIViewController {
     //update functions
     //update veiw from model function
     func updateViewFromModel() {
+        //draw cards
         for cardOnTable in 0..<game.cardsOnTableCount() {
             if game.canUseCard(index: cardOnTable) {
                 drawCard(index: cardOnTable, selected: game.cardSelected(index: cardOnTable), card: game.getCardOnTable(index: cardOnTable))
@@ -60,6 +64,24 @@ class ViewController: UIViewController {
             }
             
         }
+        
+        //draw score
+        if (game.gameOver()) {
+            scoreLabel.text = "Final Score: \(game.getScore())"
+        } else {
+            scoreLabel.text = "Score: \(game.getScore())"
+        }
+        
+        //draw game button
+        if (game.deckCount() == 0 && game.cardsOnTableCount() == 0) {
+            gameButton.setTitle("Deal 3 More", for: UIControl.State.normal)
+        } else if game.gameOver() {
+            gameButton.setTitle("New Game", for: UIControl.State.normal)
+        } else {
+            gameButton.setTitle("Deal 3 More", for: UIControl.State.normal)
+        }
+        
+        
     }
     
     //drawing card functions

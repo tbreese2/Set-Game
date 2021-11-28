@@ -315,6 +315,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="gameButton" destination="d0n-a4-VMt" id="vFn-4z-uja"/>
+                        <outlet property="scoreLabel" destination="Jyd-vn-aTG" id="CDU-WV-DVP"/>
                         <outletCollection property="cardViewArray" destination="XPe-Sr-BTn" collectionClass="NSMutableArray" id="0NJ-uq-ScV"/>
                         <outletCollection property="cardViewArray" destination="0MA-1z-dYe" collectionClass="NSMutableArray" id="Y91-as-r5H"/>
                         <outletCollection property="cardViewArray" destination="w1a-Xe-eyO" collectionClass="NSMutableArray" id="NV1-hh-qew"/>
