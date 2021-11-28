@@ -22,12 +22,11 @@ class ViewController: UIViewController {
             updateViewFromModel()
         }
     }
-    
-    @IBAction func mainControlButtonPressed() {
+    @IBAction func gameButtonPressed(_ sender: UIButton) {
         game.dealCards()
         updateViewFromModel()
     }
-    
+     
     //global vars
     //view dictionaries
     //property 1 = ■, property 2 = ●, property 3 = ▲

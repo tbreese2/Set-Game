@@ -53,6 +53,9 @@ struct gameBoard {
             if !indexsOfSelectedCards.contains(index) {
                 if selectedAreSet() {
                     replaceMatchCards()
+                    score += 1
+                } else {
+                    score -= 1
                 }
                 indexsOfSelectedCards = [Int]()
             }
