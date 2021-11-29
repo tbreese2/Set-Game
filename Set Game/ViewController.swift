@@ -5,6 +5,9 @@
 //  Created by Tyler S Breese on 11/24/21.
 //
 
+
+//also, changing it so as long as three cards are selected, they are removed
+
 import UIKit
 
 class ViewController: UIViewController {
@@ -23,8 +26,14 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func gameButtonPressed(_ sender: UIButton) {
-        game.dealCards()
-        updateViewFromModel()
+        if !game.gameOver() {
+            game.dealCards()
+            updateViewFromModel()
+        } else {
+            game = gameBoard()
+            game.dealCards()
+            updateViewFromModel()
+        }
     }
      
     //global vars

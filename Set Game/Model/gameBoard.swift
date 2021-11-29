@@ -42,22 +42,27 @@ struct gameBoard {
     }
     
     mutating func selectCard(index: Int) {
-        if indexsOfSelectedCards.contains(index) {
+        if matchedCardsDeckEmpty.count == 21 && indexsOfSelectedCards.count == 2 {
+            matchedCardsDeckEmpty.append(indexsOfSelectedCards.removeFirst())
+            matchedCardsDeckEmpty.append(indexsOfSelectedCards.removeFirst())
+            matchedCardsDeckEmpty.append(index)
+            score += 1
+        } else if indexsOfSelectedCards.contains(index) {
             indexsOfSelectedCards.remove(at: indexsOfSelectedCards.firstIndex(of: index)!)
-        }
-        else if indexsOfSelectedCards.count < 3 {
+        } else if indexsOfSelectedCards.count < 3 {
             if !indexsOfSelectedCards.contains(index) {
                 indexsOfSelectedCards.append(index)
             }
         } else {
             if !indexsOfSelectedCards.contains(index) {
-                if selectedAreSet() {
+                if selectedAreSet() { 
                     replaceMatchCards()
                     score += 1
                 } else {
                     score -= 1
                 }
                 indexsOfSelectedCards = [Int]()
+                indexsOfSelectedCards.append(index)
             }
         }
     }
@@ -120,10 +125,11 @@ struct gameBoard {
     }
     
     func gameOver() -> Bool {
-        if deckCount() == 0 {
+        if deckCount() == 0 && cardsOnTableCount() != 0 {
             for index in cardsOnTable.indices {
-                if canUseCard(index: index) { return true }
+                if canUseCard(index: index) { return false }
             }
+            return true
         }
         return false
     }
